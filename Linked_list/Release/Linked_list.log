@@ -1,0 +1,2 @@
+﻿  list.cpp
+LINK : fatal error LNK1104: cannot open file 'C:\Users\Timofey\source\repos\Linked_list\Release\Linked_list.exe'
