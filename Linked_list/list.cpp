@@ -1,6 +1,13 @@
 #include "list.h"
 
-Node::Node(int node_value, Node *next_node)
+void swap_nodes(Node* first, Node* second)
+{
+	int temp = first->value;
+	first->value = second->value;
+	second->value = temp;
+}
+
+Node::Node(int node_value, Node *next_node = nullptr)
 {
 	value = node_value;
 	next = next_node;
@@ -16,32 +23,141 @@ Node* List::get_node(int index)
 	}
 	return current;
 }
+
+
 List::List()
 {
 	this->length = 0;
 }
 
+void List::merge(List *second_list)
+{
+	this->tail->next = second_list->head;
+}
+
+void List::sort()
+{
+	if (this->length == 1)
+	{
+		return;
+	}
+	if (this->length == 2)
+	{
+		if (this->head->value > this->tail->value)
+		{
+			swap_nodes(this->head, this->tail);
+		}
+		return;
+	}
+
+	List *first_list = new List, *second_list = new List;
+	unsigned mid = this->length / 2;
+	Node *temp_node = this->head;
+	for (unsigned i = 0; i < length; ++i)
+	{
+		if (i <= mid)
+		{
+			first_list->push_back(temp_node->value);
+		}
+		else
+		{
+			second_list->push_back(temp_node->value);
+		}
+		temp_node = temp_node->next;
+	}
+	this->clear();
+	first_list->sort(), second_list->sort();
+
+
+	Node *first_node = first_list->head, *second_node = second_list->head;
+	while (first_node != nullptr && second_node != nullptr)
+	{
+		if (first_node->value < second_node->value)
+		{
+			this->push_back(first_node->value);
+			first_node = first_node->next;
+		}
+		else
+		{
+			this->push_back(second_node->value);
+			second_node = second_node->next;
+		}
+	}
+	if(first_node == nullptr)
+		while (second_node != nullptr)
+		{
+			this->push_back(second_node->value);
+			second_node = second_node->next;
+		}
+	else
+	{
+		while (first_node != nullptr)
+		{
+			this->push_back(first_node->value);
+			first_node = first_node->next;
+		}
+	}
+
+	first_list->clear();
+	delete first_list;
+	second_list->clear();
+	delete second_list;
+
+
+
+}
+
+void List::clear()
+{
+	while (this->length > 0)
+	{
+		this->pop_front();
+	}
+}
+
+void List::pop_front()
+{
+	if (this->length == 0)
+	{
+		return;
+	}
+	Node* temp_node = this->head;
+	this->head = this->head->next;
+	this->length--;
+	delete temp_node;
+}
+
 void List::push_back(int num)
 {
-	Node *new_node = new Node(num, nullptr);
+	Node *new_node = new Node(num);
 
-	if (this->tail == nullptr)
+	if (this->length == 0)
 	{
-		this->tail = this->head = new_node;
+		this->tail = new_node;
+		this->head = new_node;
 	}
-	this->tail->next = new_node;
-	this->tail = new_node;
+	else
+	{
+		this->tail->next = new_node;
+		this->tail = new_node;
+		
+	}
 	this->length++;
 }
 
 void List::push_front(int num)
 {
 	Node *new_node = new Node(num, this->head);
-	this->head = new_node;
-	if (this->tail == nullptr)
+	if (this->length == 0)
 	{
-		this->tail = this->head;
+		this->tail = new Node(num);
+		this->head = this->tail;
 	}
+	else
+	{
+		this->head = new_node;
+	}
+	
 	this->length++;
 }
 

@@ -9,10 +9,11 @@ int main()
 
 	list.push_back(5);
 	list2.push_back(5);
-	list.push_front(1);
+	list.push_front(9);
 	list2.push_front(1);
-	list.add(1, 3);
+	list.add(1, 2);
 	list2.add(1, 3);
+	list.sort();
 
 	for (unsigned i = 0; i < list.size(); ++i)
 	{
