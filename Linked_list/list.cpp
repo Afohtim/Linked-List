@@ -18,7 +18,7 @@ Node* List::get_node(int index)
 }
 List::List()
 {
-	length = 0;
+	this->length = 0;
 }
 
 void List::push_back(int num)
@@ -31,10 +31,10 @@ void List::push_back(int num)
 	}
 	this->tail->next = new_node;
 	this->tail = new_node;
-	length++;
+	this->length++;
 }
 
-void List::add_head(int num)
+void List::push_front(int num)
 {
 	Node *new_node = new Node(num, this->head);
 	this->head = new_node;
@@ -42,7 +42,7 @@ void List::add_head(int num)
 	{
 		this->tail = this->head;
 	}
-	length++;
+	this->length++;
 }
 
 void List::erase(unsigned index)
@@ -58,28 +58,28 @@ void List::erase(unsigned index)
 	Node *erased = prev->next;
 	prev->next = erased->next;
 	delete erased;
-	length--;
+	this->length--;
 }
 void List::add(unsigned index, int num)
 {
-	if (index > length)
+	if (index > this->length)
 	{
 		throw;
 	}
 	if (index == 0)
 	{
-		this->add_head(num);
+		this->push_front(num);
 		return;
 	}
 	Node *prev = get_node(index - 1);
 	Node *new_node = new Node(num, prev->next);
 	prev->next = new_node;
-	length++;
+	this->length++;
 }
 
-unsigned List::get_length()
+unsigned List::size()
 {
-	return length;
+	return this->length;
 }
 
 int List::get_value(unsigned index)

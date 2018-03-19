@@ -19,7 +19,7 @@ Double_Node* Doubly_Linked_List::get_node(int index)
 }
 Doubly_Linked_List::Doubly_Linked_List()
 {
-	length = 0;
+	this->length = 0;
 }
 
 void Doubly_Linked_List::push_back(int num)
@@ -32,10 +32,10 @@ void Doubly_Linked_List::push_back(int num)
 	}
 	this->tail->next = new_node;
 	this->tail = new_node;
-	length++;
+	this->length++;
 }
 
-void Doubly_Linked_List::add_head(int num)
+void Doubly_Linked_List::push_front(int num)
 {
 	Double_Node *new_node = new Double_Node(num, this->head, nullptr);
 	this->head = new_node;
@@ -43,7 +43,7 @@ void Doubly_Linked_List::add_head(int num)
 	{
 		this->tail = this->head;
 	}
-	length++;
+	this->length++;
 }
 
 void Doubly_Linked_List::erase(unsigned index)
@@ -59,28 +59,28 @@ void Doubly_Linked_List::erase(unsigned index)
 	Double_Node *erased = prev->next;
 	prev->next = erased->next;
 	delete erased;
-	length--;
+	this->length--;
 }
 void Doubly_Linked_List::add(unsigned index, int num)
 {
-	if (index > length)
+	if (index > this->length)
 	{
 		throw;
 	}
 	if (index == 0)
 	{
-		this->add_head(num);
+		this->push_front(num);
 		return;
 	}
 	Double_Node *prev = get_node(index - 1);
 	Double_Node *new_node = new Double_Node(num, prev->next, prev);
 	prev->next = new_node;
-	length++;
+	this->length++;
 }
 
-unsigned Doubly_Linked_List::get_length()
+unsigned Doubly_Linked_List::size()
 {
-	return length;
+	return this->length;
 }
 
 int Doubly_Linked_List::get_value(unsigned index)
