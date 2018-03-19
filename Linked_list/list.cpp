@@ -35,6 +35,56 @@ void List::merge(List *second_list)
 	this->tail->next = second_list->head;
 }
 
+void List::split_list(List *first_list , List *second_list)
+{
+	unsigned mid = this->length / 2;
+	Node *temp_node = this->head;
+	for (unsigned i = 0; i < this->length; ++i)
+	{
+		if (i <= mid)
+		{
+			first_list->push_back(temp_node->value);
+		}
+		else
+		{
+			second_list->push_back(temp_node->value);
+		}
+		temp_node = temp_node->next;
+	}
+}
+
+void List::merge_lists(List *first_list, List *second_list)
+{
+	Node *first_node = first_list->head, *second_node = second_list->head;
+	while (first_node != nullptr && second_node != nullptr)
+	{
+		if (first_node->value < second_node->value)
+		{
+			this->push_back(first_node->value);
+			first_node = first_node->next;
+		}
+		else
+		{
+			this->push_back(second_node->value);
+			second_node = second_node->next;
+		}
+	}
+	if (first_node == nullptr)
+		while (second_node != nullptr)
+		{
+			this->push_back(second_node->value);
+			second_node = second_node->next;
+		}
+	else
+	{
+		while (first_node != nullptr)
+		{
+			this->push_back(first_node->value);
+			first_node = first_node->next;
+		}
+	}
+}
+
 void List::sort()
 {
 	if (this->length == 1)
@@ -51,52 +101,13 @@ void List::sort()
 	}
 
 	List *first_list = new List, *second_list = new List;
-	unsigned mid = this->length / 2;
-	Node *temp_node = this->head;
-	for (unsigned i = 0; i < length; ++i)
-	{
-		if (i <= mid)
-		{
-			first_list->push_back(temp_node->value);
-		}
-		else
-		{
-			second_list->push_back(temp_node->value);
-		}
-		temp_node = temp_node->next;
-	}
+
+	this->split_list(first_list, second_list);
 	this->clear();
+
 	first_list->sort(), second_list->sort();
 
-
-	Node *first_node = first_list->head, *second_node = second_list->head;
-	while (first_node != nullptr && second_node != nullptr)
-	{
-		if (first_node->value < second_node->value)
-		{
-			this->push_back(first_node->value);
-			first_node = first_node->next;
-		}
-		else
-		{
-			this->push_back(second_node->value);
-			second_node = second_node->next;
-		}
-	}
-	if(first_node == nullptr)
-		while (second_node != nullptr)
-		{
-			this->push_back(second_node->value);
-			second_node = second_node->next;
-		}
-	else
-	{
-		while (first_node != nullptr)
-		{
-			this->push_back(first_node->value);
-			first_node = first_node->next;
-		}
-	}
+	this->merge_lists(first_list, second_list);
 
 	first_list->clear();
 	delete first_list;
@@ -163,6 +174,11 @@ void List::push_front(int num)
 
 void List::erase(unsigned index)
 {
+	if (index < 0 || index >= this->length)
+	{
+		throw;
+	}
+		
 	if (index == 0)
 	{
 		Node *erased = this->head;
@@ -198,8 +214,10 @@ unsigned List::size()
 	return this->length;
 }
 
-int List::get_value(unsigned index)
+int List::get(unsigned index)
 {
+	if (index < 0 || index >= this->length)
+		throw;
 	Node *current = get_node(index);
 	return current->value;
 }

@@ -1,5 +1,6 @@
-﻿  list.cpp
+﻿  main.cpp
+c:\users\timofey\source\repos\linked_list\linked_list\main.cpp(13): warning C4101: 'x': unreferenced local variable
+c:\users\timofey\source\repos\linked_list\linked_list\main.cpp(40): warning C4101: 'e': unreferenced local variable
+  list.cpp
   Generating Code...
-  Skipping... (no relevant changes detected)
-  main.cpp
   Linked_list.vcxproj -> C:\Users\Timofey\source\repos\Linked_list\Debug\Linked_list.exe

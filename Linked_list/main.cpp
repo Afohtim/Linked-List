@@ -1,35 +1,82 @@
 #include<iostream>
+#include<string>
 #include "list.h"
 #include "doubly_linked_list.h"
+
 
 int main()
 {
 	List list;
-	Doubly_Linked_List list2;
-
-	list.push_back(5);
-	list2.push_back(5);
-	list.push_front(9);
-	list2.push_front(1);
-	list.add(1, 2);
-	list2.add(1, 3);
-	list.sort();
-
-	for (unsigned i = 0; i < list.size(); ++i)
+	std::string help = "Available commands: \npush_back x \npush_front x \npop_front \nget i \nsort \nclear \nerase i \nwhere x - value, i - index\n";
+	while (true)
 	{
-		std::cout << list.get_value(i) << ' ';
+		int x;
+		std::string message;
+		std::cin >> message;
+		if (message == "push_back")
+		{
+			int x;
+			std::cin >> x;
+			list.push_back(x);
+		}
+		else if (message == "push_front")
+		{
+			int x;
+			std::cin >> x;
+			list.push_front(x);
+		}
+		else if (message == "pop_front")
+		{
+			list.pop_front();
+		}
+		else if (message == "get")
+		{
+			int i;
+			std::cin >> i;
+			try
+			{
+				std::cout << list.get(i) << '\n';
+			}
+			catch (const std::exception& e)
+			{
+				std::cout << " Wrong index\n";
+			}
+			
+		}
+		else if (message == "clear")
+		{
+			list.clear();
+		}
+		else if(message == "erase")
+		{
+			int i;
+			std::cin >> i;
+			try
+			{
+				list.erase(i);
+			}
+			catch(const std::exception&)
+			{
+				std::cout << " Wrong index\n";
+			}
+		}
+		else if(message == "size")
+		{
+			std::cout << list.size();
+		}
+		else if (message == "sort")
+		{
+			list.sort();
+		}
+		else if(message == "help")
+		{
+			std::cout << help;
+		}
+		else if (message == "end")
+		{
+			break;
+		}
 	}
-	std::cout << '\n';
+	return 0;
 
-	for (unsigned i = 0; i < list2.size(); ++i)
-	{
-		std::cout << list2.get_value(i) << ' ';
-	}
-	std::cout << '\n';
-
-	list.erase(2);
-	list2.erase(2);
-	std::cout << list.size() << '\n';
-	std::cout << list2.size() << '\n';
-	system("pause");
 }
